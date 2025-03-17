@@ -3,6 +3,7 @@
 
 import { generateText } from "ai"
 import { openai } from "@ai-sdk/openai"
+import { Message } from "openai/src/resources/beta/threads/messages.js";
 
 
 // export const runtime = 'edge';
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
     // Utiliser generateText au lieu de streamText pour simplifier
     const result = await generateText({
       model: openai('gpt-3.5-turbo'),
-      messages: messages.map((message: any) => ({
+      messages: messages.map((message: Message) => ({
         role: message.role,
         content: message.content
       }))
