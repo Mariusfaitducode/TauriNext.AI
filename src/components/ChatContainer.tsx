@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ChatInterface from './ChatInterface';
 import { Message } from 'ai';
+import { sendChatMessage, checkIsTauri } from '../services/api';
 
 // type Message = {
 //   role: 'user' | 'assistant' | 'system';
@@ -72,33 +73,32 @@ export default function ChatContainer() {
     try {
       console.log('Sending message to API:', updatedMessages);
       
-      // Appel API à votre endpoint chat
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: updatedMessages,
-        }),
-      });
+      // Déterminer l'environnement en cours
+      const isTauriEnv = checkIsTauri();
+      console.log(`Environment: ${isTauriEnv ? 'Tauri' : 'Web'}`);
       
-      console.log('Response status:', response.status);
+      // Traiter la requête selon l'environnement
+      let responseData;
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`Error ${response.status}: ${errorText}`);
+      try {
+        // Utiliser notre service API qui gère les deux environnements
+        const response = await sendChatMessage(updatedMessages);
+        
+        if (!response.ok) {
+          throw new Error(`Erreur de serveur: ${response.status}`);
+        }
+        
+        responseData = await response.json();
+        console.log('Response data:', responseData);
+      } catch (error) {
+        console.error('Chat API error:', error);
+        throw error;
       }
-      
-      // Récupérer la réponse JSON
-      const data = await response.json();
-      console.log('Response data:', data);
       
       // Ajouter la réponse de l'assistant
       const assistantMessage: Message = { 
         role: 'assistant', 
-        content: data.content || 'Désolé, je n\'ai pas pu générer de réponse.', 
+        content: responseData.content || 'Désolé, je n\'ai pas pu générer de réponse.', 
         id: (Date.now() + 1).toString() 
       };
       

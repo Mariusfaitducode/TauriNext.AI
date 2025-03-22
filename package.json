@@ -11,6 +11,8 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.2.5",
     "@ai-sdk/react": "^1.1.23",
+    "@tauri-apps/api": "^2.3.0",
+    "@tauri-apps/plugin-http": "^2.4.2",
     "ai": "^4.1.61",
     "next": "15.2.2",
     "openai": "^4.87.3",
@@ -21,7 +23,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@tauri-apps/cli": "^2.3.1",
-    "@types/node": "^20",
+    "@types/node": "^20.17.24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

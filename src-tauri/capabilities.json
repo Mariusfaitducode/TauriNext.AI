@@ -1,0 +1,42 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "capabilities": {
+    "http": {
+      "scope": [
+        "https://tauri-next-ai-o6lk-p9j9upxgm-mariusfaitducodes-projects.vercel.app/*",
+        "https://jsonplaceholder.typicode.com/*"
+      ],
+      "request": true,
+      "all": false
+    },
+    "path": {
+      "all": true
+    },
+    "window": {
+      "all": true
+    },
+    "app": {
+      "all": true
+    },
+    "shell": {
+      "scope": {
+        "allow": ["open"],
+        "deny": []
+      }
+    }
+  },
+  "plugins": {
+    "http": {
+      "enable": true
+    },
+    "shell": {
+      "enable": true
+    },
+    "window": {
+      "enable": true
+    },
+    "dialog": {
+      "enable": true
+    }
+  }
+} 
